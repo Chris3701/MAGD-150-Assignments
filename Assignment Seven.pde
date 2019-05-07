@@ -279,4 +279,214 @@
       return false;
     }
   }
-  ------------------------
+ ---------------- {VSeparate classV} ---------------------
+                        VVV
+  /*
+ * Acceleration with Vectors 
+ * by Daniel Shiffman.  
+ * 
+ * Demonstration of the basics of motion with vector.
+ * A "PlusOne" object stores location, velocity, and acceleration as vectors
+ * The motion is controlled by clicking the mouse
+ */
+
+class PlusOne{
+  PVector location;
+  PVector velocity;
+  PVector acceleration;
+  float topspeed;      //The object's maximum speed
+  
+  PlusOne(){
+    location = new PVector(1180,100);
+    velocity = new PVector(0,0);
+    topspeed = 8;
+  }
+  
+  void update() {
+    //Compute a vector that points from location to under counter
+    PVector left = new PVector(1120, getY());
+    PVector acceleration = PVector.sub(left,location);
+    //Set magnitude of acceleration
+    acceleration.setMag(0.3);
+    
+    //Velocity changes according to acceleration
+    velocity.add(acceleration);
+    //Limit the velocity by topspeed
+    velocity.limit(topspeed);
+    //Location changes by velocity
+    location.add(velocity);
+  }
+  
+  void display() {
+    //"+1" object
+    textSize(100);
+    fill(#FF0000);    //Red
+    text("+1", getX(), getY());
+    translate(5,5);
+    fill(255);        //White
+    text("+1", getX(), getY());
+  }
+  
+  /*
+  This method returns the location of the x coordinate of the "PlusOne" object
+  */
+  float getX(){
+    return location.x;
+  }
+  
+  /*
+  This method returns the location of the y coordinate of the "PlusOne" object
+  */
+  float getY(){
+    return location.y;
+  }
+}
+ ---------------- {VSeparate classV} ---------------------
+                        VVV
+  /*
+ * Acceleration with Vectors 
+ * by Daniel Shiffman.  
+ * 
+ * Demonstration of the basics of motion with vector.
+ * A "Spinning" object stores location, velocity, and acceleration as vectors
+ * The motion is controlled by clicking the mouse
+ */
+
+class Pointer{
+  PVector location;
+  PVector velocity;
+  PVector acceleration;
+  float topspeed;      //The pointer's maximum speed
+  
+  Pointer(){
+    location = new PVector(175,450);
+    velocity = new PVector(0,0);
+    topspeed = 4;
+  }
+  
+  void update() {
+    //Compute a vector that points from location to the area that should be interacted with
+    PVector left = new PVector(150,375);
+    PVector acceleration = PVector.sub(left,location);
+    //Set magnitude of acceleration
+    acceleration.setMag(0.3);
+    
+    //Velocity changes according to acceleration
+    velocity.add(acceleration);
+    //Limit the velocity by topspeed
+    velocity.limit(topspeed);
+    //Location changes by velocity
+    location.add(velocity);
+  }
+  
+  void display() {
+    //Arrow
+    fill(210);      //Light gray
+    beginShape();
+    vertex(getX(),getY());
+    vertex(getX()+30,getY()+15);
+    vertex(getX()-15,getY()+30);
+    endShape(CLOSE);
+  }
+  
+  /*
+  This method returns the location of the x coordinate of the "Pointer" object
+  */
+  float getX(){
+    return location.x;
+  }
+  
+  /*
+  This method returns the location of the y coordinate of the "Pointer" object
+  */
+  float getY(){
+    return location.y;
+  }
+}
+ ---------------- {VSeparate classV} ---------------------
+                        VVV
+  /*
+ * Acceleration with Vectors 
+ * by Daniel Shiffman.  
+ * 
+ * Demonstration of the basics of motion with vector.
+ * A "Target" object stores location, velocity, and acceleration as vectors
+ * The motion is controlled by clicking the mouse
+ */
+
+class Target{
+  PVector location;
+  PVector velocity;
+  PVector acceleration;
+  float topspeed;    //The Target's maximum speed
+  float targetSize;  //The Target's size
+  
+  Target(){
+    location = new PVector(random((width/2-100),(width/2+100)), random(150,300));
+    velocity = new PVector(0,0);
+    topspeed = 4;
+    targetSize = random(20,30);
+  }
+  
+  void update() {
+    //Compute a vector that points from location to off the screen
+    PVector bottom = new PVector(getX(), 800);
+    PVector acceleration = PVector.sub(bottom,location);
+    //Set magnitude of acceleration
+    acceleration.setMag(0.2);
+    
+    //Velocity changes according to acceleration
+    velocity.add(acceleration);
+    //Limit the velocity by topspeed
+    velocity.limit(topspeed);
+    //Location changes by velocity
+    location.add(velocity);
+  }
+  
+  void display() {
+    //Backstop
+    stroke(#270E00);  //Dark brown
+    strokeWeight(2);
+    fill(#895233);    //Light brown
+    rect(getX(), getY()+100, 20, 190);
+    //Target
+    noStroke();
+    fill(#FF0000);    //Red
+    ellipse(getX(),getY(),targetSize+20,targetSize+20);
+    pushMatrix();
+    fill(255);        //White
+    ellipse(getX(),getY(),targetSize+15,targetSize+15);
+    fill(#FF0000);
+    ellipse(getX(),getY(),targetSize+10,targetSize+10);
+    fill(255);
+    ellipse(getX(),getY(),targetSize+5,targetSize+5);
+    popMatrix();
+    fill(#FF0000);
+    ellipse(getX(),getY(),targetSize,targetSize);
+  }
+  
+  /*
+  This method returns the location of the x coordinate of the "Target" object
+  */
+  float getX(){
+    return location.x;
+  }
+  
+  void setX(float x){
+    location.x = x;
+  }
+  
+  /*
+  This method returns the location of the y coordinate of the "Target" object
+  */
+  float getY(){
+    return location.y;
+  }
+  
+  /*
+  This method returns the size of the "Target" object
+  */
+  float getSize(){
+    return targetSize;
+  }
+}
